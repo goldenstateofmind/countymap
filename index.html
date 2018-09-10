@@ -197,7 +197,7 @@ BEGIN Peaks
         return {
             pane: 'pane_Peaks_1',
             shape: 'triangle',
-            radius: geoStyle(1500.0),
+            radius: geoStyle(4.0),
             opacity: 1,
             color: 'rgba(68,68,68,1.0)',
             dashArray: '',
@@ -251,7 +251,7 @@ BEGIN Rivers
         }
 
         function style_ca_map_streams_streams_mshp2pct_0_0(feature) {
-            if (feature.properties['len_km'] >= 19.000000 && feature.properties['len_km'] <= 58.000000 ) {
+            if (feature.properties['len_km'] >= 19 && feature.properties['len_km'] <= 58 ) {
                 return {
                 pane: 'pane_ca_map_streams_streams_mshp2pct_0',
                 opacity: 1,
@@ -259,11 +259,11 @@ BEGIN Rivers
                 dashArray: '',
                 lineCap: 'round',
                 lineJoin: 'round',
-                weight: 1.0,
+                weight: 0.6,
                 fillOpacity: 0,
             }
             }
-            if (feature.properties['len_km'] >= 58.000000 && feature.properties['len_km'] <= 109.000000 ) {
+            if (feature.properties['len_km'] >= 58 && feature.properties['len_km'] <= 109 ) {
                 return {
                 pane: 'pane_ca_map_streams_streams_mshp2pct_0',
                 opacity: 1,
@@ -271,11 +271,11 @@ BEGIN Rivers
                 dashArray: '',
                 lineCap: 'round',
                 lineJoin: 'round',
-                weight: geoStyle(2),
+                weight: geoStyle(0.8),
                 fillOpacity: 0,
             }
             }
-            if (feature.properties['len_km'] >= 109.000000 && feature.properties['len_km'] <= 168.000000 ) {
+            if (feature.properties['len_km'] >= 109 && feature.properties['len_km'] <= 168 ) {
                 return {
                 pane: 'pane_ca_map_streams_streams_mshp2pct_0',
                 opacity: 1,
@@ -283,11 +283,11 @@ BEGIN Rivers
                 dashArray: '',
                 lineCap: 'round',
                 lineJoin: 'round',
-                weight: geoStyle(3),
+                weight: geoStyle(1),
                 fillOpacity: 0,
             }
             }
-            if (feature.properties['len_km'] >= 168.000000 && feature.properties['len_km'] <= 292.000000 ) {
+            if (feature.properties['len_km'] >= 168 && feature.properties['len_km'] <= 292 ) {
                 return {
                 pane: 'pane_ca_map_streams_streams_mshp2pct_0',
                 opacity: 1,
@@ -295,11 +295,11 @@ BEGIN Rivers
                 dashArray: '',
                 lineCap: 'round',
                 lineJoin: 'round',
-                weight: geoStyle(4),
+                weight: geoStyle(1.2),
                 fillOpacity: 0,
             }
             }
-            if (feature.properties['len_km'] >= 292.000000 && feature.properties['len_km'] <= 565.000000 ) {
+            if (feature.properties['len_km'] >= 292 && feature.properties['len_km'] <= 565 ) {
                 return {
                 pane: 'pane_ca_map_streams_streams_mshp2pct_0',
                 opacity: 1,
@@ -307,14 +307,14 @@ BEGIN Rivers
                 dashArray: '',
                 lineCap: 'round',
                 lineJoin: 'round',
-                weight: geoStyle(5),
+                weight: geoStyle(1.4),
                 fillOpacity: 0,
             }
             }
         }
 
         map.createPane('pane_ca_map_streams_streams_mshp2pct_0');
-        map.getPane('pane_ca_map_streams_streams_mshp2pct_0').style.zIndex = 400;
+        map.getPane('pane_ca_map_streams_streams_mshp2pct_0').style.zIndex = 402;
         map.getPane('pane_ca_map_streams_streams_mshp2pct_0').style['mix-blend-mode'] = 'normal';
         var layer_ca_map_streams_streams_mshp2pct_0 = new L.geoJson(json_ca_map_streams_streams_mshp2pct_0, {
             attribution: '<a href=""></a>',
@@ -365,77 +365,77 @@ BEGIN Lakes
                     return {
                 pane: 'pane_osm_calif_water_40hec_mshp5pctcopy_1',
                 opacity: 1,
-                color: 'rgba(152,215,237,0.5)',
+                color: 'rgba(152,215,237,1)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 2.0,
+                weight: 1,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(234,179,58,0.5)',
+                fillColor: 'rgba(234,179,58,1)',
             }
                     break;
                 case 'glacier':
                     return {
                 pane: 'pane_osm_calif_water_40hec_mshp5pctcopy_1',
                 opacity: 1,
-                color: 'rgba(152,215,237,0.5)',
+                color: 'rgba(152,215,237,1)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 2.0,
+                weight: 1,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(255,255,255,0.5)',
+                fillColor: 'rgba(255,255,255,1)',
             }
                     break;
                 case 'marsh':
                     return {
                 pane: 'pane_osm_calif_water_40hec_mshp5pctcopy_1',
                 opacity: 1,
-                color: 'rgba(152,215,237,0.5)',
+                color: 'rgba(152,215,237,1)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 0.5,
+                weight: 1,
                 fill: true,
-                fillOpacity: 0.5,
-                fillColor: 'rgba(22,212,98,0.5)',
+                fillOpacity: 1,
+                fillColor: 'rgba(22,212,98,1)',
             }
                     break;
                 case 'river':
                     return {
                 pane: 'pane_osm_calif_water_40hec_mshp5pctcopy_1',
                 opacity: 1,
-                color: 'rgba(152,215,237,0.5)',
+                color: 'rgba(152,215,237,1)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 0.5,
+                weight: 1,
                 fill: true,
-                fillOpacity: 0.5,
-                fillColor: 'rgba(19,179,237,0.5)',
+                fillOpacity: 1,
+                fillColor: 'rgba(19,179,237,1)',
             }
                     break;
                 case 'water':
                     return {
                 pane: 'pane_osm_calif_water_40hec_mshp5pctcopy_1',
                 opacity: 1,
-                color: 'rgba(126,189,233,0.5)',
+                color: 'rgba(126,189,233,1)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 2.0,
+                weight: 1,
                 fill: true,
-                fillOpacity: 0.5,
-                fillColor: 'rgba(183,224,237,0.5)',
+                fillOpacity: 1,
+                fillColor: 'rgba(183,224,237,1)',
             }
                     break;
                 case 'wetland':
                     return {
                 pane: 'pane_osm_calif_water_40hec_mshp5pctcopy_1',
                 stroke: false,
-                fillOpacity: 0.5,
+                fillOpacity: 1,
                 fillPattern: pattern_osm_calif_water_40hec_mshp5pctcopy_1_0
             }
                     break;
@@ -443,25 +443,25 @@ BEGIN Lakes
                     return {
                 pane: 'pane_osm_calif_water_40hec_mshp5pctcopy_1',
                 opacity: 1,
-                color: 'rgba(152,215,237,0.5)',
+                color: 'rgba(152,215,237,1)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 2.0,
+                weight: 1,
                 fill: true,
-                fillOpacity: 0.5,
-                fillColor: 'rgba(233,36,72,0.5)',
+                fillOpacity: 1,
+                fillColor: 'rgba(233,36,72,1)',
             }
                     break;
                 case 'dry':
                     return {
                 pane: 'pane_osm_calif_water_40hec_mshp5pctcopy_1',
                 opacity: 1,
-                color: 'rgba(152,215,237,0.5)',
+                color: 'rgba(152,215,237,1)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 2.0,
+                weight: 1,
                 fill: true,
                 fillOpacity: 1,
                 fillColor: 'rgba(183,224,237,0.2)',
@@ -470,7 +470,7 @@ BEGIN Lakes
             }
         }
         map.createPane('pane_osm_calif_water_40hec_mshp5pctcopy_1');
-        map.getPane('pane_osm_calif_water_40hec_mshp5pctcopy_1').style.zIndex = 401;
+        map.getPane('pane_osm_calif_water_40hec_mshp5pctcopy_1').style.zIndex = 403;
         map.getPane('pane_osm_calif_water_40hec_mshp5pctcopy_1').style['mix-blend-mode'] = 'normal';
         var layer_osm_calif_water_40hec_mshp5pctcopy_1 = new L.geoJson(json_osm_calif_water_40hec_mshp5pctcopy_1, {
             attribution: '<a href=""></a>',
@@ -493,16 +493,49 @@ END Lakes
     });
     osmGeocoder.addTo(map);
 
+
+    // http://a.tiles.mapbox.com/v4/mapbox.light/8/41/97.png?access_token=pk.eyJ1Ijoiamhua2xseSIsImEiOiIxLUVDMzVNIn0.MguPdmGTQUvosyLINY3wGQ
     // var baselayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        // http://a.tiles.mapbox.com/v4/mapbox.light/8/41/97.png?access_token=pk.eyJ1Ijoiamhua2xseSIsImEiOiIxLUVDMzVNIn0.MguPdmGTQUvosyLINY3wGQ
-    var baselayer = L.tileLayer('http://{s}.tiles.mapbox.com/v4/mapbox.light/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoiamhua2xseSIsImEiOiIxLUVDMzVNIn0.MguPdmGTQUvosyLINY3wGQ', {
     // var baselayer = L.tileLayer('http://{s}.tiles.mapbox.com/v4/mapbox.mapbox-terrain-v2/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoiamhua2xseSIsImEiOiIxLUVDMzVNIn0.MguPdmGTQUvosyLINY3wGQ', {
+
+    var mapboxLight = L.tileLayer('http://{s}.tiles.mapbox.com/v4/mapbox.light/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoiamhua2xseSIsImEiOiIxLUVDMzVNIn0.MguPdmGTQUvosyLINY3wGQ', {
         maxZoom: 28,
         attribution: 'Map data &copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    var baseMaps = {};
-    L.control.layers(baseMaps,{'<img src="legend/Peaks_1.png" /> Peaks': layer_Peaks_1,'<img src="legend/Countylabels_0.png" /> County labels': layer_Countylabels_0,}).addTo(map);
+    var osmMapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 28,
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+    var thunderOutdoors = L.tileLayer('https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=36ff718905b84b6995cf4df8cdf86e6f', {
+        maxZoom: 28,
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+    var satellite = L.tileLayer('https://{s}.tiles.mapbox.com/v4/digitalglobe.nal0g75k/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNpdjhqc2VoMTAwYTYydHM5NWl2dndnZm4ifQ.zS3tz6K9ck2VLQlKoA2ryg', {
+        maxZoom: 28,
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+// DG's mb key? https://api.tiles.mapbox.com/v4/digitalglobe.nal0g75k/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNpdjhqc2VoMTAwYTYydHM5NWl2dndnZm4ifQ.zS3tz6K9ck2VLQlKoA2ryg
+
+
+var baseMaps = {
+    "Light": mapboxLight,
+    "Outdoors": thunderOutdoors,
+    "OSM": osmMapnik,
+    "Satellite": satellite,
+};
+
+
+    // var baseMaps = {};
+    L.control.layers(
+        baseMaps,
+        {
+            '<img src="legend/Peaks_1.png" /> Peaks': layer_Peaks_1,
+            '<img src="legend/Countylabels_0.png" /> County labels': layer_Countylabels_0,
+        }
+    ).addTo(map);
 
     setBounds();
 
@@ -550,6 +583,25 @@ END Lakes
       i++;
     });
 
+    var i = 0;
+    layer_osm_calif_water_40hec_mshp5pctcopy_1.eachLayer(function(layer) {
+        var context = {
+            feature: layer.feature,
+            variables: {}
+        };
+        layer.bindTooltip(
+            // (label_Peaks_1_eval_expression(context) !== null ? \
+            (layer.feature.properties['name'] !== null ? String('<div style="text-align: center; color: #999; font-size: 10px; font-style: italic; font-family: \'Myriad Set Pro\', sans-serif;">' + layer.feature.properties["name"]) + '</div>' : ''),
+            {
+                permanent: true, offset: [-2, -1], className: 'css_lakes'
+            });
+        labels.push(layer);
+        totalMarkers += 1;
+      layer.added = true;
+      addLabel(layer, i);
+      i++;
+    });
+
     newM2px();
 
     layer_Peaks_1.setStyle(style_Peaks_1_0);
@@ -558,15 +610,19 @@ END Lakes
         newM2px();
         layer_Peaks_1.setStyle(style_Peaks_1_0);
     });
-    resetLabels([layer_Countylabels_0,layer_Peaks_1]);
+
+    resetLabels([layer_Countylabels_0,layer_Peaks_1,layer_osm_calif_water_40hec_mshp5pctcopy_1]);
+
     map.on("zoomend", function(){
-        resetLabels([layer_Countylabels_0,layer_Peaks_1]);
+        resetLabels([layer_Countylabels_0,layer_Peaks_1,layer_osm_calif_water_40hec_mshp5pctcopy_1]);
     });
+
     map.on("layeradd", function(){
-        resetLabels([layer_Countylabels_0,layer_Peaks_1]);
+        resetLabels([layer_Countylabels_0,layer_Peaks_1,layer_osm_calif_water_40hec_mshp5pctcopy_1]);
     });
+
     map.on("layerremove", function(){
-        resetLabels([layer_Countylabels_0,layer_Peaks_1]);
+        resetLabels([layer_Countylabels_0,layer_Peaks_1,layer_osm_calif_water_40hec_mshp5pctcopy_1]);
     });
     </script>
 </body>
