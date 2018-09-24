@@ -89,7 +89,13 @@
     map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
 
     var hash = new L.Hash(map);
-    L.control.locate().addTo(map);
+    L.control.locate({
+        icon: 'fa fa-map-marker',
+        setView: 'untilPanOrZoom',
+        locateOptions: {
+            maxZoom: 17
+        }
+    }).addTo(map);
 
     var bounds_group = new L.featureGroup([]);
 
