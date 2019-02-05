@@ -14,6 +14,7 @@ but on
   ?
 */
 
+
 var m2px = 1;
 function newM2px() {
     var centerLatLng = map.getCenter();
@@ -52,11 +53,13 @@ function highlightFeature(e) {
     // highlightLayer.openPopup();
 }
 
+// SW, NE
+var sfBounds = [[37.6956,-122.5180], [37.8094,-122.4029]];
 var map = L.map('map', {
     zoomControl:true, maxZoom:28, minZoom:1
 // }).fitBounds([[32,-124.5],[42,-114]]);
 // }).fitBounds([[37,-122],[40,-120]]);
-}).fitBounds([[37.6956,-122.5180], [37.8094,-122.4029]]);
+}).fitBounds(sfBounds);
 
 map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
 
@@ -172,7 +175,8 @@ function style_Countylabels_0_0() {
     return {
         pane: 'pane_Countylabels_0',
         // stroke: false,
-        color: "rgb(187,166,217)", // not stroke, strokeColor
+        // color: "rgb(187,166,217)", // purple/lavender
+        color: "rgba(182, 121, 12, 0.8)", // not stroke, strokeColor
         // strokeColor: 'rgba(253,0,0,1)',
         fill: true,
         // fillOpacity: 0.5,
@@ -397,6 +401,15 @@ BEGIN Lakes
 
     pattern_osm_calif_water_40hec_mshp5pctcopy_1_0.addTo(map);
 
+/*natural:
+river
+water
+bay
+glacier
+marsh
+wetland
+dry
+*/
     function style_osm_calif_water_40hec_mshp5pctcopy_1_0(feature) {
         switch(String(feature.properties['natural'])) {
             case 'bay':
@@ -510,7 +523,15 @@ BEGIN Lakes
     map.createPane('pane_osm_calif_water_40hec_mshp5pctcopy_1');
     map.getPane('pane_osm_calif_water_40hec_mshp5pctcopy_1').style.zIndex = 403;
     map.getPane('pane_osm_calif_water_40hec_mshp5pctcopy_1').style['mix-blend-mode'] = 'normal';
-    var layer_osm_calif_water_40hec_mshp5pctcopy_1 = new L.geoJson(json_osm_calif_water_40hec_mshp5pctcopy_1, {
+
+    water_json = json_osm_calif_water_40hec_mshp5pctcopy_1;
+
+    water_json.features = water_json.features.filter(f => {
+      return f.geometry.coordinates.length > 0 && ['river', 'water'].indexOf(f.properties.natural) !== -1;
+      // 1092 -> 1030 -> 774
+    });
+
+    var layer_osm_calif_water_40hec_mshp5pctcopy_1 = new L.geoJson(water_json, {
         attribution: '<a href=""></a>',
         pane: 'pane_osm_calif_water_40hec_mshp5pctcopy_1',
         onEachFeature: pop_osm_calif_water_40hec_mshp5pctcopy_1,
@@ -521,8 +542,6 @@ BEGIN Lakes
 /*
 END Lakes
 */
-
-
 
 var osmGeocoder = new L.Control.OSMGeocoder({
     collapsed: false,
@@ -587,13 +606,12 @@ layer_Countylabels_0.eachLayer(function(layer) {
         variables: {}
     };
     layer.bindTooltip(
-        (layer.feature.properties['label'] !== null?String('<div style="color: #7f7777; font-size: 8pt; font-family: \'Myriad Set Pro\', sans-serif; text-shadow: 0px 0px 1px rgba(255,255,255,1.0); ">' + layer.feature.properties['label']) + '</div>':''),
-        // text-shadow: x y blur color;
+        (layer.feature.properties['label'] !== null?String('<div class="label-parent"><div>' + layer.feature.properties['label'].toUpperCase()) + '</div></div>':''),
         {
             permanent: true,
             direction: "center",
-            offset: [-0, -0],
-            className: 'css_Countylabels_0'
+            // offset: [-0, -0],
+            className: 'county_labels'
         }
     );
     labels.push(layer);
@@ -630,7 +648,7 @@ layer_sf_hoods.eachLayer(function(layer) {
     };
     layer.bindTooltip(
         // (layer.feature.properties['name'] !== null ? String('<div style="text-align: center; color: rgb(220, 108, 20); font-size: 12px; font-style: bold; font-family: \'Myriad Set Pro\', sans-serif;">' + layer.feature.properties["name"]) + '</div>' : ''),
-        (layer.feature.properties['name'] !== null ? String('<div class="label-parent"><div>' + layer.feature.properties["name"]) + '</div></div>' : ''),
+        (layer.feature.properties['name'] !== null ? String('<div class="label-parent"><div>' + layer.feature.properties["name"].toUpperCase()) + '</div></div>' : ''),
         {
             permanent: true,
             // offset: [-40, 0],
@@ -673,6 +691,45 @@ map.on("zoomend", function(){
     layer_Peaks_1.setStyle(style_Peaks_1_0);
     layer_sf_hoods.setStyle(style_Peaks_1_0);
 });
+
+var bbox;
+var intersectedPolygons = [];
+
+map.on('moveend', function() {
+    console.log(map.getBounds());
+    if (map.getZoom() >= 15) {
+      // if (map.getCenter() >= 15) {
+
+      bbox = map.getBounds();
+
+      var N = bbox.getNorth();
+      var E = bbox.getEast();
+      var S = bbox.getSouth();
+      var W = bbox.getWest();
+
+      var turfBbox = turf.polygon([[
+        [E,N],
+        [W,N],
+        [W,S],
+        [E,S],
+        [E,N]
+      ]]);
+
+      sf_hoods.features.forEach(f => {
+        var polygon = turf.polygon(f.geometry.coordinates);
+
+        var intersection = turf.intersect(turfBbox, polygon);
+        if (intersection) intersectedPolygons.push(intersection);
+
+      })
+
+      var theIntersection = new L.geoJSON(intersectedPolygons, {color:'#22aaff'}).addTo(map);
+
+      // only compute intersect/partial polygons if in sf
+      // }
+    }
+});
+
 
 var labelLayers = [
   layer_Countylabels_0,

@@ -19,18 +19,27 @@
       }
       .sf_hoods {
         stroke: rgba(220, 108, 20, 0.8);
-        stroke-width: 3;
+        stroke-width: 5;
         stroke-opacity: 0.15;
         fill: rgba(255, 255, 255, 0.01);
         fill-opacity: 0.01;
       }
       .sf_hoods_labels {
-        color: rgba(220, 108, 20, 0.7);
+        color: rgba(220, 108, 20, 1);
         // text-align: center;
-        font-size: 12px;
+        font-size: 13px;
+        letter-spacing: 0.1em;
         font-style: bold;
         font-family: 'Myriad Set Pro', sans-serif;
         // left: -50%;
+      }
+      .county_labels {
+        color: rgba(192, 166, 131, 1);
+        // color: "#b6790c";
+        font-size: 13px;
+        letter-spacing: 0.3em;
+        font-style: bold;
+        font-family: 'Myriad Set Pro', sans-serif;
       }
       .leaflet-tooltip-left .label-parent {
         position: relative;
@@ -66,6 +75,10 @@
     <script src="data/sf_hoods.js"></script>
     <script src="data/ca_rivers.js"></script>
     <script src="data/osm_calif_water.js"></script>
+    <script src='js/turf.min.js'></script>
+
+    var bbox = turf.bbox(features);
+
     <script src="js/index.js?v1"></script>
 
 </body>
