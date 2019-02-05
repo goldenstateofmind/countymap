@@ -697,7 +697,7 @@ var intersectedPolygons = [];
 
 map.on('moveend', function() {
     console.log(map.getBounds());
-    if (map.getZoom() >= 15) {
+    if (map.getZoom() >= 150) {
       // if (map.getCenter() >= 15) {
 
       bbox = map.getBounds();
@@ -726,7 +726,6 @@ map.on('moveend', function() {
       var theIntersection = new L.geoJSON(intersectedPolygons, {color:'#22aaff'}).addTo(map);
 
       // only compute intersect/partial polygons if in sf
-      // }
     }
 });
 
