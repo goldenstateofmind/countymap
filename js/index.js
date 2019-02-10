@@ -111,26 +111,12 @@ function pop_sf_hoods(feature, layer) {
     layer.bindPopup(popupContent, {maxHeight: 400});
 }
 
-/*function style_sf_hoods2() {
-    console.log("style_sf_hoods2");
-    return {
-        pane: 'pane_sf_hoods',
-        color: "rgba(20, 210, 220, 0.5)", // not stroke, strokeColor
-        fill: true,
-        fillColor: 'rgba(253,253,243,0.05)',
-        weight: 2,
-    };
-}*/
-// map.createPane('pane_Peaks_1');
 map.createPane('pane_sf_hoods');
 map.getPane('pane_sf_hoods').style.zIndex = 404;
 map.getPane('pane_sf_hoods').style['mix-blend-mode'] = 'normal';
-// var layer_Peaks_1 = new L.geoJson(json_Peaks_1, {
 var layer_sf_hoods = new L.geoJson(sf_hoods, {
     attribution: '<a href=""></a>',
     pane: 'pane_sf_hoods',
-    // onEachFeature: pop_sf_hoods,
-    // style: style_sf_hoods2,
 });
 layer_sf_hoods.setStyle({'className': 'sf_hoods'});
 bounds_group.addLayer(layer_sf_hoods);
@@ -647,12 +633,9 @@ layer_sf_hoods.eachLayer(function(layer) {
         variables: {}
     };
     layer.bindTooltip(
-        // (layer.feature.properties['name'] !== null ? String('<div style="text-align: center; color: rgb(220, 108, 20); font-size: 12px; font-style: bold; font-family: \'Myriad Set Pro\', sans-serif;">' + layer.feature.properties["name"]) + '</div>' : ''),
         (layer.feature.properties['name'] !== null ? String('<div class="label-parent"><div>' + layer.feature.properties["name"].toUpperCase()) + '</div></div>' : ''),
         {
             permanent: true,
-            // offset: [-40, 0],
-            // offset: ["-50%", 0],
             className: 'sf_hoods_labels'
         });
     labels.push(layer);
@@ -684,22 +667,30 @@ layer_osm_calif_water_40hec_mshp5pctcopy_1.eachLayer(function(layer) {
 newM2px();
 
 layer_Peaks_1.setStyle(style_Peaks_1_0);
-layer_sf_hoods.setStyle(style_Peaks_1_0);
+// layer_sf_hoods.setStyle(style_Peaks_1_0);
 
-map.on("zoomend", function(){
-    newM2px();
-    layer_Peaks_1.setStyle(style_Peaks_1_0);
-    layer_sf_hoods.setStyle(style_Peaks_1_0);
-});
 
-var bbox;
-var intersectedPolygons = [];
+function intersectLayerWithBbox(LGJLayer, geojson, clipZ, minZ, maxZ) {
+  minZ = minZ || 0;
+  maxZ = maxZ || 25;
+  var bbox;
+  var intersectedPolygons = [];
+  var ipfc = {
+    "type": "FeatureCollection",
+    "features": intersectedPolygons
+  };
 
-map.on('moveend', function() {
-    console.log(map.getBounds());
-    if (map.getZoom() >= 150) {
-      // if (map.getCenter() >= 15) {
-
+  var z = map.getZoom();
+  if ( z >= minZ && z <= maxZ ) {
+    map.removeLayer(LGJLayer);
+    LGJLayer.clearLayers();
+    if ( z < clipZ ) {
+      // show without clipping
+      console.log("showing unclipped", z);
+      ipfc = cj(geojson);
+    }
+    if (z >= clipZ && z <= maxZ) {
+      console.log("clipping", z);
       bbox = map.getBounds();
 
       var N = bbox.getNorth();
@@ -707,7 +698,7 @@ map.on('moveend', function() {
       var S = bbox.getSouth();
       var W = bbox.getWest();
 
-      var turfBbox = turf.polygon([[
+      var turfBbox = turf.helpers.polygon([[
         [E,N],
         [W,N],
         [W,S],
@@ -715,18 +706,54 @@ map.on('moveend', function() {
         [E,N]
       ]]);
 
-      sf_hoods.features.forEach(f => {
-        var polygon = turf.polygon(f.geometry.coordinates);
-
+      geojson.features.forEach(f => {
+        var polygon = turf.helpers.polygon(f.geometry.coordinates);
         var intersection = turf.intersect(turfBbox, polygon);
-        if (intersection) intersectedPolygons.push(intersection);
-
+        if (intersection) {
+          intersection.properties = f.properties;
+          intersectedPolygons.push(intersection);
+        }
       })
-
-      var theIntersection = new L.geoJSON(intersectedPolygons, {color:'#22aaff'}).addTo(map);
-
-      // only compute intersect/partial polygons if in sf
     }
+
+    LGJLayer.addData(ipfc);
+    LGJLayer.setStyle({'className': 'sf_hoods'});
+    map.addLayer(LGJLayer);
+
+    var i = 0;
+    var zClass = "";
+    if (z >= 14 ) zClass = 14;
+    if (z >= 16 ) zClass = 16;
+    if (z >= 18 ) zClass = 18;
+    var classStr = "sf_hoods_labels sfhl_z" + zClass;
+    console.log('classStr', classStr);
+    LGJLayer.eachLayer(function(layer) {
+      var prop = layer.feature.properties['name'] || "";
+      var tt = '<div class="label-parent"><div>' + prop.toUpperCase() + '</div></div>';
+      layer.bindTooltip(tt, {
+        permanent: true,
+        className: classStr
+      });
+      labels.push(layer);
+      totalMarkers += 1;
+      layer.added = true;
+      addLabel(layer, i);
+      i++;
+    });
+  }
+}
+
+
+map.on("zoomend", function(){
+    newM2px();
+    layer_Peaks_1.setStyle(style_Peaks_1_0);
+    // layer_sf_hoods.setStyle(style_Peaks_1_0);
+});
+
+map.on('moveend', function() {
+  // intersectLayerWithBbox(LGJLayer, geojson, clipZ, minZ, maxZ)
+  intersectLayerWithBbox(layer_sf_hoods, sf_hoods, 15, 11)
+  resetLabels(labelLayers);
 });
 
 
@@ -737,8 +764,9 @@ var labelLayers = [
   layer_osm_calif_water_40hec_mshp5pctcopy_1
 ];
 
-resetLabels(labelLayers);
+// resetLabels(labelLayers);
 
+/*
 map.on("zoomend", function(){
     resetLabels(labelLayers);
 });
@@ -750,3 +778,6 @@ map.on("layeradd", function(){
 map.on("layerremove", function(){
     resetLabels(labelLayers);
 });
+*/
+
+function cj(o) { return JSON.parse(JSON.stringify(o)); }
