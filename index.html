@@ -26,13 +26,14 @@
       }
       .sf_hoods_labels {
         color: rgba(220, 108, 20, 1);
-        // text-align: center;
-        font-size: 13px;
-        letter-spacing: 0.1em;
+        font-size: 8px;
+        // letter-spacing: 0.1em;
         font-style: bold;
         font-family: 'Myriad Set Pro', sans-serif;
-        // left: -50%;
       }
+      .sfhl_z14 { font-size: 10px; }
+      .sfhl_z16 { font-size: 12px; }
+      .sfhl_z18 { font-size: 14px; }
       .county_labels {
         color: rgba(192, 166, 131, 1);
         // color: "#b6790c";
@@ -75,7 +76,7 @@
     <script src="data/sf_hoods.js"></script>
     <script src="data/ca_rivers.js"></script>
     <script src="data/osm_calif_water.js"></script>
-    <script src='js/turf.min.js'></script>
+    <script src='js/turf_intersect.min.js'></script>
 
     var bbox = turf.bbox(features);
 
