@@ -7,6 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/fontawesome-all.min.css">
     <link rel="stylesheet" href="css/L.Control.Locate.min.css">
     <link rel="stylesheet" href="css/qgis2web.css">
     <link rel="stylesheet" href="css/Control.OSMGeocoder.css">
@@ -83,8 +84,8 @@
 
     var map = L.map('map', {
         zoomControl:true, maxZoom:28, minZoom:1
-    // }).fitBounds([[32,-124.5],[42,-114]]);
-    }).fitBounds([[37,-122],[40,-120]]);
+    }).fitBounds([[32,-124.5],[42,-114]]);
+    // }).fitBounds([[37,-122],[40,-120]]);
 
     map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
 
@@ -185,7 +186,7 @@ BEGIN Peaks
             },
             mouseover: highlightFeature,
         });
-        var popupContent = '<table>\
+        var popupContent = '<table class="Peaks_1_label">\
                 <tr>\
                     <th scope="row">NAME</th>\
                     <td>' + (feature.properties['NAME'] !== null ? Autolinker.link(String(feature.properties['NAME'])) : '') + '</td>\
@@ -579,7 +580,7 @@ var baseMaps = {
         };
         layer.bindTooltip(
             // (label_Peaks_1_eval_expression(context) !== null ? \
-            (layer.feature.properties['Name'] !== null ? String('<div style="text-align: center; color: #999; font-size: 10px; font-style: italic; font-family: \'Myriad Set Pro\', sans-serif;">' + label_Peaks_1_eval_expression(context)) + '</div>' : ''),
+            (layer.feature.properties['Name'] !== null ? String('<div style="text-align: center; color: #F00; font-size: 10px; font-style: italic; font-family: \'Myriad Set Pro\', sans-serif; line-height: 1.1">' + label_Peaks_1_eval_expression(context)) + '</div>' : ''),
             {
                 permanent: true, offset: [-2, -1], className: 'css_Peaks_1'
             });
