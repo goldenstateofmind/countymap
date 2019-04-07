@@ -1,5 +1,4 @@
 /*
-alias gjhnklly='git config user.name "jhnklly"; git config user.email "jhnklly@gmail.com"; git config github.user "jhnklly"'
 
 git config user.name "goldenstateofmind"
 git config user.email "stateofgoldenmind@gmail.com"
@@ -59,9 +58,10 @@ var map = L.map('map', {
     zoomControl:true, maxZoom:28, minZoom:1
 // }).fitBounds([[32,-124.5],[42,-114]]);
 // }).fitBounds([[37,-122],[40,-120]]);
-}).fitBounds(sfBounds);
+})
+.fitBounds(sfBounds);
 
-map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+// map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
 
 var hash = new L.Hash(map);
 L.control.locate({
@@ -75,7 +75,7 @@ L.control.locate({
 var bounds_group = new L.featureGroup([]);
 
 function setBounds() {
-    map.setMaxBounds(map.getBounds());
+    // map.setMaxBounds(map.getBounds());
 }
 
 
@@ -119,8 +119,8 @@ var layer_sf_hoods = new L.geoJson(sf_hoods, {
     pane: 'pane_sf_hoods',
 });
 layer_sf_hoods.setStyle({'className': 'sf_hoods'});
-bounds_group.addLayer(layer_sf_hoods);
-map.addLayer(layer_sf_hoods);
+// bounds_group.addLayer(layer_sf_hoods);
+// map.addLayer(layer_sf_hoods);
 
 /*
 END sf_hoods
@@ -159,15 +159,16 @@ function pop_Countylabels_0(feature, layer) {
 
 function style_Countylabels_0_0() {
     return {
-        pane: 'pane_Countylabels_0',
         // stroke: false,
         // color: "rgb(187,166,217)", // purple/lavender
-        color: "rgba(182, 121, 12, 0.8)", // not stroke, strokeColor
         // strokeColor: 'rgba(253,0,0,1)',
-        fill: true,
         // fillOpacity: 0.5,
+        /*pane: 'pane_Countylabels_0',
+        color: "rgba(182, 121, 12, 0.8)", // not stroke, strokeColor
+        fill: true,
         fillColor: 'rgba(253,253,243,0.05)',
-        weight: 1, // not strokeWidth: 1,
+        weight: 1, // not strokeWidth: 1,*/
+        className: "countyLines"
     }
 }
 map.createPane('pane_Countylabels_0');
@@ -524,7 +525,8 @@ dry
         style: style_osm_calif_water_40hec_mshp5pctcopy_1_0,
     });
     bounds_group.addLayer(layer_osm_calif_water_40hec_mshp5pctcopy_1);
-    map.addLayer(layer_osm_calif_water_40hec_mshp5pctcopy_1);
+    // map.addLayer(layer_osm_calif_water_40hec_mshp5pctcopy_1);
+
 /*
 END Lakes
 */
@@ -544,6 +546,11 @@ osmGeocoder.addTo(map);
 var mapboxLight = L.tileLayer('https://{s}.tiles.mapbox.com/v4/mapbox.light/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoiamhua2xseSIsImEiOiIxLUVDMzVNIn0.MguPdmGTQUvosyLINY3wGQ', {
     maxZoom: 28,
     attribution: 'Map data &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
+
+var carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
+    maxZoom: 28,
+    attribution: 'Map data &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors, ©<a href="https://carto.com/attribution/">CARTO</a>'
 }).addTo(map);
 
 var osmMapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -564,6 +571,7 @@ var satellite = L.tileLayer('https://{s}.tiles.mapbox.com/v4/digitalglobe.nal0g7
 
 
 var baseMaps = {
+"Carto": carto,
 "Light": mapboxLight,
 "Outdoors": thunderOutdoors,
 "OSM": osmMapnik,
@@ -575,9 +583,10 @@ var baseMaps = {
 L.control.layers(
     baseMaps,
     {
-        '<img src="legend/Peaks_1.png" /> Peaks': layer_Peaks_1,
-        '<img src="legend/Peaks_1.png" /> Neighborhoods (SF)': layer_sf_hoods,
-        '<img src="legend/Countylabels_0.png" /> County labels': layer_Countylabels_0,
+        'Peaks': layer_Peaks_1,
+        'Lakes': layer_osm_calif_water_40hec_mshp5pctcopy_1,
+        'Neighborhoods (SF)': layer_sf_hoods,
+        'County labels': layer_Countylabels_0,
     }
 ).addTo(map);
 
@@ -653,7 +662,7 @@ layer_osm_calif_water_40hec_mshp5pctcopy_1.eachLayer(function(layer) {
     };
     layer.bindTooltip(
         // (label_Peaks_1_eval_expression(context) !== null ? \
-        (layer.feature.properties['name'] !== null ? String('<div style="text-align: center; color: #999; font-size: 10px; font-style: italic; font-family: \'Myriad Set Pro\', sans-serif;">' + layer.feature.properties["name"]) + '</div>' : ''),
+        (layer.feature.properties['name'] !== null ? String('<div class="water_labels">' + layer.feature.properties["name"]) + '</div>' : ''),
         {
             permanent: true, offset: [-2, -1], className: 'css_lakes'
         });
@@ -686,7 +695,7 @@ function intersectLayerWithBbox(LGJLayer, geojson, clipZ, minZ, maxZ) {
     LGJLayer.clearLayers();
     if ( z < clipZ ) {
       // show without clipping
-      console.log("showing unclipped", z);
+      // console.log("showing unclipped", z);
       ipfc = cj(geojson);
     }
     if (z >= clipZ && z <= maxZ) {
@@ -726,7 +735,7 @@ function intersectLayerWithBbox(LGJLayer, geojson, clipZ, minZ, maxZ) {
     if (z >= 16 ) zClass = 16;
     if (z >= 18 ) zClass = 18;
     var classStr = "sf_hoods_labels sfhl_z" + zClass;
-    console.log('classStr', classStr);
+    // console.log('classStr', classStr);
     LGJLayer.eachLayer(function(layer) {
       var prop = layer.feature.properties['name'] || "";
       var tt = '<div class="label-parent"><div>' + prop.toUpperCase() + '</div></div>';
@@ -743,17 +752,28 @@ function intersectLayerWithBbox(LGJLayer, geojson, clipZ, minZ, maxZ) {
   }
 }
 
+map.on('zoom', function(){
+});
+
 
 map.on("zoomend", function(){
     newM2px();
     layer_Peaks_1.setStyle(style_Peaks_1_0);
     // layer_sf_hoods.setStyle(style_Peaks_1_0);
+
 });
 
 map.on('moveend', function() {
   // intersectLayerWithBbox(LGJLayer, geojson, clipZ, minZ, maxZ)
-  intersectLayerWithBbox(layer_sf_hoods, sf_hoods, 15, 11)
-  resetLabels(labelLayers);
+
+  var z = map.getZoom();
+  if (z >= 13) {
+      intersectLayerWithBbox(layer_sf_hoods, sf_hoods, 15, 11)
+      resetLabels(labelLayers);
+      return layer_sf_hoods.addTo(map);
+  }
+  return layer_sf_hoods.removeFrom(map);
+
 });
 
 

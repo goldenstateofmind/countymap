@@ -17,6 +17,11 @@
           padding: 0;
           margin: 0;
       }
+      .countyLines {
+        stroke: rgba(220, 201, 168, 0.8);
+        fill: rgba(253,253,243,0.05);
+        stroke-width: 1px;
+      }
       .sf_hoods {
         stroke: rgba(220, 108, 20, 0.8);
         stroke-width: 5;
@@ -29,6 +34,13 @@
         font-size: 8px;
         // letter-spacing: 0.1em;
         font-style: bold;
+        font-family: 'Myriad Set Pro', sans-serif;
+      }
+      .water_labels {
+        color: #6DAFE4;
+        font-size: 10px;
+        font-style: italic;
+        text-align: center;
         font-family: 'Myriad Set Pro', sans-serif;
       }
       .sfhl_z14 { font-size: 10px; }
@@ -52,6 +64,23 @@
       }
       // .leaflet-tooltip-left { background-color: rgba(255,255,0,0.5);}
       // .leaflet-tooltip-right { background-color: rgba(22,200,255,0.5);}
+      .leaflet-control-locate > a.leaflet-bar-part {
+        /*width: 20px;
+        height: 20px;*/
+        display: flex;
+        align-items: center;
+      }
+      .fa-map-marker {
+        display: block;
+        width: 20px;
+        height: 20px;
+        color: black;
+        margin: auto;
+        // border: 1px solid black;
+        // border-radius: 50%;
+        background-size:cover;
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABm0lEQVRIib3WvWpUQRjG8d9ZrCTIEhaxsbO0kID3YLVIsLBIIbkKsRCsUlmlCN5GQFltLESwsFjETsGPICKiu8aERUTHYicwiWdnxl3ZOQzMxzPPf945M3NOEwTLSJ2lUHCqRtRoOriAKzgfm99hEITXVaRQeNDF3Wg8wa+YJ7FtC92iTwFyFvcQCnkbvUVAt+PMjwwnGOHbifZD3JwLhHP4npi9Qh+nsYJreJP0j3JR5UA3EpPPuD5D8yXR/aU5enLb+3JSfo4HLZpdDGeMOZZyoDNJeRyE/RbNPsYzxlSDUoNeo1lt0ayil9S/zgN6kpTXcLVFs45LSf3pTLfMZug6/qL3sJFEsYkPSf8nrMx7ju6Y3gKlA/sTt3JepUv1Pt4XNPAWg5ygBBriUQVogJdZRS7cuHxrpksza9l+4GLRpwLUweMM6CE6C4MibN30Ij0JGaFf41H7hX2GFy3tw9hXTjWziVFttkS0UT3+H0BdfEwgezIHdN6lE4QxdnAQ804QDmrHN3G2deLpxdrHb+xG+P8HLZKW9l/3B6IYBCaFlBUzAAAAAElFTkSuQmCC");
+      }
     </style>
     <title></title>
 </head>
