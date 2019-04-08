@@ -187,6 +187,46 @@ map.addLayer(layer_Countylabels_0);
 /*
 END Counties
 
+BEGIN Camps
+*/
+
+function pop_Peaks_1(feature, layer) {
+    layer.on({
+    });
+}
+
+function styleCamps() {
+    return {
+        pane: 'pane_camps',
+        shape: 'circle',
+        radius: geoStyle(4.0),
+        color: 'rgba(50,200,50,1)',
+        weight: geoStyle(1),
+        fill: true,
+        fillColor: 'rgba(50,200,50,0.75)',
+    };
+}
+map.createPane('pane_camps');
+map.getPane('pane_camps').style.zIndex = 401;
+map.getPane('pane_camps').style['mix-blend-mode'] = 'normal';
+var layer_camps = new L.geoJson(json_camps, {
+    attribution: '<a href=""></a>',
+    pane: 'pane_camps',
+    // onEachFeature: pop_Peaks_1,
+    pointToLayer: function (feature, latlng) {
+        var context = {
+            feature: feature,
+            variables: {}
+        };
+        return L.shapeMarker(latlng, styleCamps(feature));
+    },
+});
+bounds_group.addLayer(layer_camps);
+map.addLayer(layer_camps);
+
+/*
+END Camps
+
 BEGIN Peaks
 */
 
@@ -206,19 +246,21 @@ function pop_Peaks_1(feature, layer) {
         },
         mouseover: highlightFeature,
     });
-    var popupContent = '<table>\
-            <tr>\
-                <th scope="row">NAME</th>\
-                <td>' + (feature.properties['NAME'] !== null ? Autolinker.link(String(feature.properties['NAME'])) : '') + '</td>\
-            </tr>\
-            <tr>\
-                <td colspan="2">' + (feature.properties['ELEV_FT'] !== null ? Autolinker.link(String(feature.properties['ELEV_FT'])) : '') + '</td>\
-            </tr>\
-            <tr>\
-                <td colspan="2">' + (feature.properties['label'] !== null ? Autolinker.link(String(feature.properties['label'])) : '') + '</td>\
-            </tr>\
-        </table>';
-    layer.bindPopup(popupContent, {maxHeight: 400});
+    /*
+      var popupContent = '<table>\
+              <tr>\
+                  <th scope="row">NAME</th>\
+                  <td>' + (feature.properties['NAME'] !== null ? Autolinker.link(String(feature.properties['NAME'])) : '') + '</td>\
+              </tr>\
+              <tr>\
+                  <td colspan="2">' + (feature.properties['ELEV_FT'] !== null ? Autolinker.link(String(feature.properties['ELEV_FT'])) : '') + '</td>\
+              </tr>\
+              <tr>\
+                  <td colspan="2">' + (feature.properties['label'] !== null ? Autolinker.link(String(feature.properties['label'])) : '') + '</td>\
+              </tr>\
+          </table>';
+      layer.bindPopup(popupContent, {maxHeight: 400});
+    */
 }
 
 function style_Peaks_1_0() {
@@ -584,6 +626,7 @@ L.control.layers(
     baseMaps,
     {
         'Peaks': layer_Peaks_1,
+        'Camps': layer_camps,
         'Lakes': layer_osm_calif_water_40hec_mshp5pctcopy_1,
         'Neighborhoods (SF)': layer_sf_hoods,
         'County labels': layer_Countylabels_0,
@@ -627,6 +670,24 @@ layer_Peaks_1.eachLayer(function(layer) {
         (layer.feature.properties['Name'] !== null ? String('<div style="text-align: center; color: #999; font-size: 10px; font-style: italic; font-family: \'Myriad Set Pro\', sans-serif;">' + label_Peaks_1_eval_expression(context)) + '</div>' : ''),
         {
             permanent: true, offset: [-2, -1], className: 'css_Peaks_1'
+        });
+    labels.push(layer);
+    totalMarkers += 1;
+  layer.added = true;
+  addLabel(layer, i);
+  i++;
+});
+
+var i = 0;
+layer_camps.eachLayer(function(layer) {
+    var context = {
+        feature: layer.feature,
+        variables: {}
+    };
+    layer.bindTooltip(
+        (layer.feature.properties['name'] !== null ? String('<div>' + layer.feature.properties['name'] ) + '</div>' : ''),
+        {
+            permanent: true, offset: [-2, -1], className: 'label_camps'
         });
     labels.push(layer);
     totalMarkers += 1;
